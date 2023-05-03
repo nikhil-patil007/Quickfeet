@@ -1,0 +1,92 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include 'headers/head.html' %}
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+
+  {% include 'headers/asider.html' %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'headers/header.html' %}
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">All Contact Request Page</h6>
+              </div>
+            </div>
+            <!-- <a href="{% url 'forms' %}" class='btn bg-gradient-primary mt-4 w-100'>+ Add New Page</a> -->
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 contact" id='myTable'>
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary font-weight-bolder">ID</th>
+                      <th class="text-uppercase text-secondary font-weight-bolder">Name</th>
+                      <th class="text-uppercase text-secondary font-weight-bolder">Email</th>
+                      <th class="text-uppercase text-secondary font-weight-bolder">Subject</th>
+                      <!--<th class="text-center text-uppercase text-secondary font-weight-bolder">Token</th>-->
+                      <th class="text-center text-uppercase text-secondary font-weight-bolder">Create</th>
+                      <th class="text-center text-uppercase text-secondary font-weight-bolder">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in data %}
+                    <tr id='{{i.id}}'>
+                      <td>{{i.id}}</td>
+                      <td>{{i.Full_name}}</td>
+                      <td>{{i.Email}}</td>
+                      <td>{{i.Subject}}</td>
+                      <!--<td>[# {{i.Token}}]: {{i.Subject}}</td>-->
+                      <!--<td>{{i.Token}}</td>-->
+                      <td class="">{{i.Create_at}}</td>
+                      <td class="text-secondary opacity-7">
+                        <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'Request_Back' id=i.id %}"><i class="fa fa-eye"></i></a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include 'headers/footer.html' %}
+    </div>
+  </main>
+  {% include 'headers/set.html' %}
+  <!--   Core JS Files   -->
+  {% include 'headers/scripts.html' %}
+  <!--   End Core JS Files   -->
+  <script>
+    $(document).ready(function(){
+      setInterval(function(){
+        var sel = $('select[name=myTable_length] option').filter(":selected").val();
+      },2000);
+    });
+  </script>
+</body>
+
+</html>

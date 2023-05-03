@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'headers/head.html' %}
+  </head>
+<body class="g-sidenav-show  bg-gray-200">
+  {% include 'headers/asider.html' %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'headers/header.html' %}
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                {% if fom == 2 %}
+                <h6 class="text-white text-capitalize ps-3">Edit : ( {{getpas.Name}} )</h6>
+                {% else %}
+                <h6 class="text-white text-capitalize ps-3">Drills Form Page</h6>
+                {% endif %}
+              </div>
+            </div>
+            <!--  Code Start  --> 
+            <div class="card-body">
+              {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <script>
+                  $(document).ready(function(e){
+                    swal(
+                      'Success',
+                      "{{ message }}",
+                      '{{ message.tags }}'
+                    )
+                  });
+                </script>
+                {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-white" role="alert">
+                  <span class="text-sm">{{ message }}</span>
+                  <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+              <form role="form" class="text-start needs-validation" novalidate enctype="multipart/form-data" action="{% url 'Drills_Add_Form' %}" method="POST">{% csrf_token %}
+              {% if fom == 2 %}
+                <div class="input-group input-group-outline my-3 focused is-focused" >
+              {% else %}
+                <div class="input-group input-group-outline my-3" id='ttyl'>
+              {% endif %}
+                  <label class="form-label">Name</label>
+                  <input type="text" class="form-control" name='Name' value='{{getpas.Name}}' required>
+                  <input type="hidden" class="form-control" name='id' value='{{getpas.id}}'>
+                  <div class="invalid-feedback">
+                    Please provide a Name Of Drills.
+                  </div>
+                </div>
+                <label class="form-label">Drills Number</label>
+                <div class="input-group input-group-outline">
+                  <select class="form-control" name='Drills_Number' required>
+                  {% if fom == 2 %}
+                    <option class="form-control" value='' disabled>-----</option>
+                  {% else %}
+                    <option class="form-control" value='' disabled selected >-----</option>
+                  {% endif %}
+                    {% for i in range %}
+                      {% ifequal i|slugify getpas.Drills_Number %}
+                        <option class="form-control" value='{{i}}' selected>{{i}}</option>
+                      {% else %}
+                        <option class="form-control" value='{{i}}'>{{i}}</option>
+                      {% endifequal %}
+                    {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Please provide a Drills Number.
+                    </div>
+                </div>
+                  {% if fom == 2 %}
+                    <div class="input-group input-group-outline my-3 focused is-focused" >
+                  {% else %}
+                    <div class="input-group input-group-outline my-3" id='ttyl'>
+                  {% endif %}
+                  <label class="form-label">Drills Logic</label>
+                  <input type="text" class="form-control" name='Drills_Logic' value='{{getpas.Drills_Logic}}' required>
+                  <div class="invalid-feedback">
+                    Please provide a Drills Logic.
+                  </div>
+                </div>
+                {% comment %} <label class="form-label">Audio</label>
+                <div class="input-group input-group-outline mb-3">
+                  {% if getbnr.image %}
+                    <input type="file" class="form-control" name='audio_file' data-id="audioInput" accept='audio/*'>
+                  {% else %}
+                    <input type="file" class="form-control" name='audio_file' data-id="audioInput" accept='audio/*' required>
+                    {% endif %}
+                  <div class="invalid-feedback">
+                    Please provide an Sound.
+                  </div>
+                </div> {% endcomment %}
+                {% comment %} <div class="Preview-img">
+                  {% if getbnr.image %}
+                  <img data-id="filePreview" class="imagetag" src={{getbnr.image.url}}>
+                  {% else %}
+                  <img data-id="filePreview" class="imagetag">
+                  {% endif %}
+                </div>
+                </div> {% endcomment %}
+                {% comment %} <label class="form-label">Audio</label>
+                <div class="input-group input-group-outline mb-3">
+                <input type="file" class="form-control" name='Music' accept='audio/*' required>
+                  <div class="invalid-feedback">
+                    Please provide an Audio.
+                  </div>
+                </div> {% endcomment %}
+                {% comment %} <label class="form-label" >CkEditor</label>
+                <div class="input-group input-group-outline mb-3">
+                  {{ form.contain }}
+                  {{ form.media }}
+                </div> {% endcomment %}
+                <div class="text-left">
+                  <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value='Submit'>
+                </div>
+              </form>
+            </div> 
+          </div>
+        </div>
+      </div>
+      {% include 'headers/footer.html' %}
+    </div>
+  </main>
+  {% include 'headers/set.html' %}
+  <!--   Core JS Files   -->
+  {% include 'headers/scripts.html' %}
+</body>
+
+</html>

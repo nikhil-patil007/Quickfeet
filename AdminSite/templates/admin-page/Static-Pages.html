@@ -1,0 +1,133 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include 'headers/head.html' %}
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+
+  {% include 'headers/asider.html' %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'headers/header.html' %}
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2  bg-gradient-primary">
+              <div class="row">
+                    
+                    <div class="col-lg-6">
+                        <div class=" pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">All Static Page</h6>
+                         </div>
+                    </div>
+                    <div class="col-lg-3"></div>
+                    <!--<div class="col-lg-3 pt-3 pb-3" style="text-align:center;">-->
+                    <!-- <a type="button" href="{% url 'forms' %}" id="gredien-eff" class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">+ Add New Page</a>-->
+                    <!--</div>-->
+                                
+                </div>
+             </div> 
+            <!-- <a href="{% url 'forms' %}" class='btn bg-gradient-primary mt-4 w-100'>+ Add New Page</a> -->
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 static" id='myTable'>
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary font-weight-bolder">ID</th>
+                      <!--<th class="text-uppercase text-secondary font-weight-bolder">Image</th>-->
+                      <th class="text-uppercase text-secondary font-weight-bolder">Title</th>
+                      <!--<th class="text-center text-uppercase text-secondary font-weight-bolder">Is_Active</th>-->
+                      <th class="text-center text-uppercase text-secondary font-weight-bolder">Create/Update</th>
+                      <th class="text-center text-uppercase text-secondary font-weight-bolder">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in data %}
+                    <tr id='{{i.id}}'>
+                      <td>{{i.id}}</td>
+                      <!--<td>-->
+                      <!--  {% if i.image %}-->
+                      <!--  <img src="{{i.image.url}}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">-->
+                      <!--  {% endif %}-->
+                      <!--</td>-->
+                      <td>
+                        <h6 class="mb-0">{{i.title}}</h6>
+                      </td>
+                      <!--<td class="text-center text-uppercase text-secondary" id='check{{i.id}}'>-->
+                      <!--  {% if i.Is_Active == '1' %}-->
+                      <!--  <div class='onoffswitch'>-->
+                      <!--    <input type='checkbox' name='onoffswitch' data-sid='{{i.id}}' class='check-blocks onoffswitch-checkbox' id='myonoffswitch{{i.id}}' checked>-->
+                      <!--    <label class='onoffswitch-label' for='myonoffswitch{{i.id}}'>-->
+                      <!--      <div class='onoffswitch-inner'></div>-->
+                      <!--      <div class='onoffswitch-switch'></div>-->
+                      <!--    </label>-->
+                      <!--  </div>-->
+                      <!--  {% endif %}-->
+                      <!--  {% if i.Is_Active == '0' %}-->
+                      <!--  <div class='onoffswitch'>-->
+                      <!--    <input type='checkbox' name='onoffswitch' data-sid='{{i.id}}' class='check-blocks onoffswitch-checkbox' id='myonoffswitch{{i.id}}'>-->
+                      <!--    <label class='onoffswitch-label' for='myonoffswitch{{i.id}}'>-->
+                      <!--      <div class='onoffswitch-inner'></div>-->
+                      <!--      <div class='onoffswitch-switch'></div>-->
+                      <!--    </label>-->
+                      <!--  </div> -->
+                      <!--  {% endif %}-->
+                      <!--</td>-->
+                      <td class="">
+                        <div class="d-flex flex-column justify-content-center">
+                          <p class=" text-secondary mb-0">{{i.Create_at}}</p>
+                          <p class=" text-secondary mb-0">{{i.Update_at}}</p>
+                        </div>
+                      </td>
+                      <td class="text-secondary opacity-7">
+                        <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'Edit_Form_Page' id=i.slug %}"><i class="material-icons text-sm me-2">edit</i></a>
+                        <!--<button class="btn btn-link px-3 mb-0 del-data" id="link" href="{% url 'static_delete' id=i.id %}"><i class="material-icons text-sm me-2">delete</i></button>-->
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include 'headers/footer.html' %}
+    </div>
+  </main>
+  {% include 'headers/set.html' %}
+  <!--   Core JS Files   -->
+  {% include 'headers/scripts.html' %}
+  <!--   End Core JS Files   -->
+  <script>
+    $(document).ready(function(){
+      setInterval(function(){
+        var sel = $('select[name=myTable_length] option').filter(":selected").val();
+      },2000);
+    });
+  </script>
+  <script>
+    {% include 'ajax/Static_Page.js' %}
+  </script>
+</body>
+
+</html>

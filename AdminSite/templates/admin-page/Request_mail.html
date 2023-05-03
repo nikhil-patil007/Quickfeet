@@ -1,0 +1,247 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include 'headers/head.html' %}
+</head> 
+<style>
+    .for-flex {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+label {
+    width: 9%;
+}
+</style>
+<body class="g-sidenav-show  bg-gray-200">
+  {% include 'headers/asider.html' %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'headers/header.html' %}
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">{{getbnr.Subject}}</h6>
+              </div>
+            </div>
+            <!--  Code Start  --> 
+            <div class="card-body">
+              {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <script>
+                  $(document).ready(function(e) {
+                    swal(
+                      'Success',
+                      "{{ message }}",
+                      '{{ message.tags }}'
+                    )
+                  });
+                </script>
+                {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-white" role="alert">
+                  <span class="text-sm">{{ message }}</span>
+                  <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                {% endif %}
+
+              {% endfor %}
+              {% endif %}
+              
+                <div class="form-check form-switch align-items-center mb-3">
+                    {% for bnr in data %}
+                        {% if bnr.user == 'User' %}
+                        <div class="con-form">
+                            <div class="form-grp">
+                                <label style="margin-left: 0;    font-weight: 500;">Name :</label>
+                                <div class="for-flex">
+                                    <p>{{bnr.Full_name}}</p>
+                                    <p>{{bnr.Create_at}}</p>
+                                </div>    
+                            </div>
+                            <div class="form-grp">
+                                <label style="margin-left: 0;    font-weight: 500;">Email :</label>
+                                <p>{{bnr.Email}}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="flex-grow-1 ">
+                                    <div class="form-grp">
+                                        <label class="" style="margin-left:0;    font-weight: 500;">Message :</label>
+                                        <p class="">{{bnr.Message}}</p>
+                                    </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endif %}
+                        {% if bnr.user == 'Admin' %}
+                        <div class="con-form">
+                            <div class="form-grp">
+                                <!--<label style="margin-left: 0;    font-weight: 500;" hidden>Name :</label>-->
+                                <div class="for-flex">
+                                    <p>&nbsp; &nbsp; &nbsp;</p>
+                                    <p>{{bnr.Create_at}}</p>
+                                </div>    
+                            </div>
+                            <div class="form-grp">
+                                <!--<label style="margin-left: 0;    font-weight: 500;" hidden>Email :</label>-->
+                                <p hidden>{{bnr.Email}}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="flex-grow-1 ">
+                                    <div class="form-grp">
+                                        <label class="" style="margin-left:0;    font-weight: 500;">Me :</label>
+                                        <p class="">{{bnr.Message}}</p>
+                                    </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+              <form role="form" class="text-start needs-validation" novalidate action="{% url 'Request_Reply' %}" method="POST">{% csrf_token %}
+                  <!--<label class="form-label">Reply :-</label>-->
+                  <div class="input-group input-group-outline my-3" id='ttyl'>
+                  <!--<div class="input-group input-group-static" id='ttyl'> -->
+                  <input type='hidden' name='id' value='{{getbnr.id}}'>
+                  <p id='pdate' hidden><span id='spanyear'></span>-<span id="spanmonth"></span>-<span id='spandd'></span> <span id='spantime'></span></p>
+                  <textarea class="form-control" rows='15' required name='post' placeholder='Type here to Reply to Ticket'></textarea>
+                  <div class="invalid-feedback">
+                    The Reply field is required
+                  </div>
+                </div>
+                  <input type="hidden" class="from-control" id="Currentdate" name="Currentdate">
+                <div class="text-left">
+                  <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value='Send Reply'>
+                  <!--button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button-->
+                </div>
+                <!--p class="mt-4 text-sm text-center">
+                  Don't have an account?
+                  <a href="#" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                </p-->
+              </form>
+            </div> 
+            <!--div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+              </div>
+            </div-->
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Token History</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <div class="card-body pt-3">
+                  <div class="mb-1">
+                <table class='table align-items-center '>
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <div class="d-flex">
+                              <div class="flex-grow-1 ms-3">
+                                <h6 class="h5 mt-0">{{getbnr.Full_name}} ({{getbnr.Email}}) <span class="text-xs text-secondary mb-0"> On {{getbnr.Create_at}}</span>
+                                </h6>
+                                <h6 class="mt-0">Subject :- <span class="text-sm text-decoration-underline">{{getbnr.Subject}}</span>
+                                </h6>
+                                <p class="h6">Massage</p>
+                                <p class="text-sm">{{getbnr.Message}}</p>
+                              </div>
+                            </div>
+                        </tr>
+                        <hr class='horizontal mt-1 mb-3'>
+                        <tr>
+                            <div class="d-flex">
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="h5 mt-0">{{getbnr.Full_name}} ({{getbnr.Email}}) <span class="text-xs text-secondary mb-0"> On {{getbnr.Create_at}}</span>
+                                </h6>
+                                <h6 class="mt-0">Subject :- <span class="text-sm text-decoration-underline">{{getbnr.Subject}}</span>
+                                </h6>
+                                <p class="h6">Massage</p>
+                                <p class="text-sm">{{getbnr.Message}}</p>
+                            </div>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      {% include 'headers/footer.html' %}
+    </div>
+  </main>
+  {% include 'headers/set.html' %}
+  <!--   Core JS Files   -->
+  {% include 'headers/scripts.html' %}
+</body>
+<script>
+  $( document ).ready(function() {
+    console.log( "ready!" );
+  setInterval(showTime, 1000);
+  function showTime() {
+  let today = new Date();
+    dayName = today.getDay(),
+    dayNum = today.getDate(),
+    month = today.getMonth(),
+    year = today.getFullYear();
+   var time = displayTime.innerText = today.toLocaleTimeString("en-US", { hour12: false });
+   $("#spandd").text(dayNum);
+   $("#spanmonth").text(month);
+   $("#spanyear").text(year);
+   $("#spantime").text(time);
+   var datses = $("#pdate").text();
+   $("#Currentdate").val(datses);
+}
+});
+  
+    (function () {
+      'use strict'
+    
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+    
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+    
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
+</html>

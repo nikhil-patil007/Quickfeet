@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    {% include 'headers/head.html' %}
+  </head>
+<style>
+  .django-ckeditor-widget{
+    width: 100%;
+  }
+  .Preview-img {
+    background-color: gainsboro;
+    margin-bottom: 1rem;
+    width: 150px;
+    height: 150px;
+    border-radius :92px;
+    & img {
+      width: 150px;
+      height: 150px;
+      border-radius :92px;
+    }
+  }
+    
+    .imagetag {
+      width: 150px;
+      height: 150px;
+      border-radius :92px;
+  }
+</style>
+  
+<body class="g-sidenav-show  bg-gray-200">
+  {% include 'headers/asider.html' %}
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    {% include 'headers/header.html' %}
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                {% if fom == 2 %}
+                <h6 class="text-white text-capitalize ps-3">Edit : ( {{getbnr.title}} )</h6>
+                {% else %}
+                <h6 class="text-white text-capitalize ps-3">Static Form Page</h6>
+                {% endif %}
+              </div>
+            </div>
+            <!--  Code Start  --> 
+            <div class="card-body">
+              {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <script>
+                  $(document).ready(function(e) {
+                    swal(
+                      'Success',
+                      "{{ message }}",
+                      '{{ message.tags }}'
+                    )
+                  });
+                </script>
+                {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-white" role="alert">
+                  <span class="text-sm">{{ message }}</span>
+                  <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                {% endif %}
+
+              {% endfor %}
+              {% endif %}
+              <form role="form" class="text-start needs-validation" novalidate enctype="multipart/form-data" action="{% url 'Form_add' %}" method="POST">{% csrf_token %}
+                {% if fom == 2 %}
+                  <div class="input-group input-group-outline my-3 focused is-focused" >
+                {% else %}
+                  <div class="input-group input-group-outline my-3" id='ttyl'>
+                {% endif %}
+                  <label class="form-label">Title</label>
+                  <input type="text" class="form-control" name='text1' value='{{getbnr.title}}' readonly>
+                  <input type="hidden" class="form-control" name='id' value='{{getbnr.id}}'>
+                  <div class="invalid-feedback">
+                    Please provide a Title.
+                  </div>
+                </div>
+                <!--<div class="Preview-img">-->
+                <!--  {% if getbnr.image %}-->
+                <!--  <img data-id="filePreview" class="imagetag" src={{getbnr.image.url}}>-->
+                <!--  {% else %}-->
+                <!--  <img data-id="filePreview" class="imagetag">-->
+                <!--  {% endif %}-->
+                <!--</div>-->
+                <!--<label class="form-label">Image</label>-->
+                <!--<div class="input-group input-group-outline mb-3">-->
+                <!--  {% if getbnr.image %}-->
+                <!--    <input type="file" class="form-control" name='text2' data-id="fileInput">-->
+                <!--  {% else %}-->
+                <!--    <input type="file" class="form-control" name='text2' data-id="fileInput" required>-->
+                <!--    {% endif %}-->
+                <!--  <div class="invalid-feedback">-->
+                <!--    Please provide an Image.-->
+                <!--  </div>-->
+                <!--</div>-->
+                {% comment %} <label class="form-label">Audio</label>
+                <div class="input-group input-group-outline mb-3">
+                <input type="file" class="form-control" name='Music' accept='audio/*' required>
+                  <div class="invalid-feedback">
+                    Please provide an Audio.
+                  </div>
+                </div> {% endcomment %}
+                <label class="form-label" >CkEditor</label>
+                <div class="input-group input-group-outline mb-3">
+                  {{ form.contain }}
+                  {{ form.media }}
+                </div>
+                <div class="text-left">
+                  <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value='Submit'>
+                </div>
+              </form>
+            </div> 
+          </div>
+        </div>
+      </div>
+      {% include 'headers/footer.html' %}
+    </div>
+  </main>
+  {% include 'headers/set.html' %}
+  <!--   Core JS Files   -->
+  {% include 'headers/scripts.html' %}
+</body>
+
+</html>
